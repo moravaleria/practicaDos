@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\appointments;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
+use App\Models\Car;
+use App\Models\Service;
 
-class AppointmentsController extends Controller
+class AppointmentController extends Controller
 {
     
     public function index()
     {
-       $appointments=Appointment::all();
-       return view ('appointments.index',compact('appointments'));
+
+       $appointments=Appointment::with(['car','service'])->get();
+       $cars=Car::all();
+       $services=Service::all();
+       return view ('appointments.index',compact('appointments','cars','services'));
     }
 
     
@@ -28,34 +33,36 @@ class AppointmentsController extends Controller
         $appointment->car_id=$request->car_id;
         $appointment->service_id=$request->service_id;
         $appointment->appointment_at=$request->appointment_at;
-        $appointment->status=$request->status;
+        $appointment->save();
+        return redirect()->route('cars.index');
     }
 
    
-    public function show(appointments $appointments)
+    public function show(Appointment $appointment)
     {  
     }
 
     
-    public function edit(appointments $appointments)
+    public function edit(Appointment $appointment)
     {
         $appointments = Appointment::find($id);
         return view ('appointments.edit',compact('appointment'));
     }
 
-    public function update(Request $request, appointments $appointments)
+    public function update(Request $request, Appointment $appointment)
     {
         $appointment=Appointment::find($id);
         $appointment->id=$request->id;
         $appointment->car_id=$request->car_id;
         $appointment->service_id=$request->service_id;
         $appointment->appointment_at=$request->appointment_at;
-        $appointment->status=$request->status;
+        $appointment->save();
+        return redirect()->route('cars.index');
     }
 
-    public function destroy(appointments $appointments)
+    public function destroy(Appointment $appointment)
     {
-        $appointment = appointment::find($id);
+        $appointment = Appointment::find($id);
         $appointment->delete();
         return redirect()->route('appointments.index');
     }

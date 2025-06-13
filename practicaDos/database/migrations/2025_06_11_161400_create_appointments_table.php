@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('car_id')->references('id')->on('cars');
             $table->unSignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
-            $table->datetime('appointment_at');
-            $table->string('status');
+            $table->dateTime('appointment_at');
+            $table->string('status')->default('Pendiente');
             $table->timestamps();
         });
     }
