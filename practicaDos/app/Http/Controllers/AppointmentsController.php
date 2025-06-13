@@ -7,59 +7,56 @@ use Illuminate\Http\Request;
 
 class AppointmentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+       $appointments=Appointment::all();
+       return view ('appointments.index',compact('appointments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
-        //
+        
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $appointment=new Appointment();
+        $appointment->id=$request->id;
+        $appointment->car_id=$request->car_id;
+        $appointment->service_id=$request->service_id;
+        $appointment->appointment_at=$request->appointment_at;
+        $appointment->status=$request->status;
     }
 
-    /**
-     * Display the specified resource.
-     */
+   
     public function show(appointments $appointments)
-    {
-        //
+    {  
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
     public function edit(appointments $appointments)
     {
-        //
+        $appointments = Appointment::find($id);
+        return view ('appointments.edit',compact('appointment'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, appointments $appointments)
     {
-        //
+        $appointment=Appointment::find($id);
+        $appointment->id=$request->id;
+        $appointment->car_id=$request->car_id;
+        $appointment->service_id=$request->service_id;
+        $appointment->appointment_at=$request->appointment_at;
+        $appointment->status=$request->status;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(appointments $appointments)
     {
-        //
+        $appointment = appointment::find($id);
+        $appointment->delete();
+        return redirect()->route('appointments.index');
     }
 }
