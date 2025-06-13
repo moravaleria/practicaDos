@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Car;
 use App\Models\Service;
 
-class appointments extends Model
+class Appointment extends Model
 {
     use HasFactory;
     public function car()
